@@ -7,8 +7,8 @@ This repository currently contains a minimal Spring Boot skeleton to get you run
 ## Prerequisites
 
 - Java Development Kit (JDK) matching the Maven compiler settings in `pom.xml`.
-	- Current config: `java.version=25` (source/target 25)
-	- If you don’t have JDK 25 installed, you can either install it or change the values in `pom.xml` (for example, 17 or 21) to match your installed JDK.
+  - Current config: `java.version=25` (source/target 25)
+  - If you don’t have JDK 25 installed, you can either install it or change the values in `pom.xml` (for example, 17 or 21) to match your installed JDK.
 - No global Maven required — the project includes the Maven Wrapper.
 
 ## Quick start (Windows PowerShell)
@@ -63,16 +63,16 @@ mvnw / mvnw.cmd                    # Maven Wrapper scripts
 
 - Default settings live in `src/main/resources/application.properties`.
 - Common tweaks:
-	- Change server port: `server.port=8081`
-	- Set active profile: `spring.profiles.active=dev`
+  - Change server port: `server.port=8081`
+  - Set active profile: `spring.profiles.active=dev`
 
 ## Troubleshooting
 
 - Build fails with “release version X not supported” or similar:
-	- Your installed JDK likely doesn’t match the `java.version`/`maven.compiler.*` in `pom.xml`.
-	- Either install the matching JDK or update `pom.xml` values (for example, to 17 or 21) to align with your JDK.
+  - Your installed JDK likely doesn’t match the `java.version`/`maven.compiler.*` in `pom.xml`.
+  - Either install the matching JDK or update `pom.xml` values (for example, to 17 or 21) to align with your JDK.
 - Port already in use:
-	- Adjust `server.port` in `application.properties` or stop the conflicting process.
+  - Adjust `server.port` in `application.properties` or stop the conflicting process.
 
 ## Roadmap (monolith → microservices)
 
@@ -92,4 +92,3 @@ Issues and pull requests are welcome. Please create a feature branch from `main`
 ## License
 
 This project has not specified a license. If you plan to share or reuse, consider adding a LICENSE file (e.g., MIT, Apache-2.0).
-
