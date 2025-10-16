@@ -1,8 +1,8 @@
 package com.app.ecom.service;
 
-import com.app.ecom.dto.AddressDto;
-import com.app.ecom.dto.UserRequest;
-import com.app.ecom.dto.UserResponse;
+import com.app.ecom.dto.user.AddressDto;
+import com.app.ecom.dto.user.UserRequest;
+import com.app.ecom.dto.user.UserResponse;
 import com.app.ecom.model.Address;
 import com.app.ecom.model.User;
 import com.app.ecom.repository.UserRepository;

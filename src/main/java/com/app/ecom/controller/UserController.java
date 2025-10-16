@@ -1,7 +1,7 @@
 package com.app.ecom.controller;
 
-import com.app.ecom.dto.UserRequest;
-import com.app.ecom.dto.UserResponse;
+import com.app.ecom.dto.user.UserRequest;
+import com.app.ecom.dto.user.UserResponse;
 import com.app.ecom.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
