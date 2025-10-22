@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +23,11 @@ public class ProductController {
         );
     }
 
+    @GetMapping
+    public ResponseEntity<List<ProductResponse>> getProducts (){
+        return ResponseEntity.ok(productService.getAllProducts());
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> updateProduct(
             @PathVariable Long id,
@@ -31,4 +37,22 @@ public class ProductController {
                 .map(ResponseEntity::ok)
                 .orElseGet(()-> ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> updateProduct(@PathVariable Long id){
+        boolean deleted = productService.deleteProduct(id);
+        return deleted ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.notFound().build() ;
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductResponse>> searchProducts(@RequestParam String keyword){
+        return ResponseEntity.ok(productService.searchProduct(keyword));
+    }
+
+
+
+
+
 }
