@@ -10,3 +10,23 @@ spring:
   show-sql: true
   hibernate:
     ddl-auto: create
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+     show-details: always
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: MyNewApp
+    description: App Built by us
+    version: 1.0.0
+
