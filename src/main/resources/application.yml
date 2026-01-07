@@ -1,16 +1,27 @@
 spring:
- application:
-  name: ecom-application
- h2:
-  console:
-    enabled: true
- datasource:
-  url: jdbc:h2:mem:testdb
- jpa:
-  show-sql: true
-  hibernate:
-    ddl-auto: create
+  application:
+    name: ecom-application
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user
+    username: user
+    password: password
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    # In Spring Boot 3, you can usually remove this line and let Hibernate auto-detect the dialect:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+# h2:
+#  console:
+#    enabled: true
+# datasource:
+#  url: jdbc:h2:mem:testdb
+# jpa:
+#  show-sql: true
+#  hibernate:
+#    ddl-auto: create
 
 management:
   endpoints:
@@ -19,7 +30,7 @@ management:
         include: '*'
   endpoint:
     health:
-     show-details: always
+      show-details: always
   info:
     env:
       enabled: true
@@ -29,4 +40,3 @@ info:
     name: MyNewApp
     description: App Built by us
     version: 1.0.0
-
