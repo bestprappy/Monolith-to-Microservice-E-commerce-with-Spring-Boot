@@ -13,9 +13,12 @@ This repository currently contains a minimal Spring Boot skeleton to get you run
 
 ## Quick start (Windows PowerShell)
 
-From the project root (`ecom-application`):
+You can run each service independently. For example, to run the **Monolith**:
 
 ```powershell
+# Navigate to the service directory
+cd monolith/ecom-application
+
 # 1) Verify Maven Wrapper works and prints Maven version
 ./mvnw.cmd -v
 
@@ -37,20 +40,25 @@ java -jar target/ecom-application-0.0.1-SNAPSHOT.jar
 ## Project structure (current)
 
 ```
-src/
-	main/
-		java/
-			com/app/ecom/
-				EcomApplication.java      # Spring Boot entry point
-				UserController.java       # Placeholder controller (to be implemented)
-		resources/
-			application.properties      # Spring Boot configuration
-	test/
-		java/
-			com/app/ecom/
-				EcomApplicationTests.java # Placeholder test
-pom.xml                           # Build config and dependencies
-mvnw / mvnw.cmd                    # Maven Wrapper scripts
+ecom-microservices/             # Root workspace
+├── docker-compose.yml          # Container orchestration (Root level)
+├── monolith/                   # Legacy Monolithic Application
+│   └── ecom-application/       # Spring Boot application folder
+│       ├── src/
+│       ├── pom.xml
+│       └── mvnw / mvnw.cmd
+├── order/                      # Order Microservice
+│   ├── src/
+│   ├── pom.xml
+│   └── mvnw / mvnw.cmd
+├── product/                    # Product Microservice
+│   ├── src/
+│   ├── pom.xml
+│   └── mvnw / mvnw.cmd
+└── user/                       # User Microservice
+    ├── src/
+    ├── pom.xml
+    └── mvnw / mvnw.cmd
 ```
 
 ## Testing
