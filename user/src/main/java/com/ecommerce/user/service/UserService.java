@@ -31,9 +31,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Boolean updatedUser(Long id, UserRequest updatedUserRequest){
+    public Boolean updatedUser(String id, UserRequest updatedUserRequest){
 
-        return userRepository.findById(id)
+        return userRepository.findById(String.valueOf(id))
                 .map(existingUser -> {
                     updateUserFromRequest(existingUser, updatedUserRequest);
                     userRepository.save(existingUser);                           userRepository.save(existingUser);
@@ -41,8 +41,8 @@ public class UserService {
                 }).orElse(false);
     }
 
-    public Optional<UserResponse> findUserById(Long id){
-        return userRepository.findById(id)
+    public Optional<UserResponse> findUserById(String id){
+        return userRepository.findById(String.valueOf(id))
                 .map(this::mapToUserResponse);
     }
 
