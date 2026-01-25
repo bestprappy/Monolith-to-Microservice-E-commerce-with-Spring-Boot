@@ -33,6 +33,11 @@ public class ProductService {
                 });
     }
 
+    public Optional<ProductResponse> getProductById(String id){
+        return productRepository.findByIdAndActiveTrue(Long.valueOf(id))
+                .map(this::mapToProductResponse);
+    }
+
     public List<ProductResponse> getAllProducts(){
         return productRepository.findByActiveTrue().stream()
                 .map(this::mapToProductResponse)

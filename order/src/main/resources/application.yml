@@ -11,6 +11,9 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
 #  h2:
 #    console:
 #      enabled: true
@@ -35,4 +38,3 @@ management:
       enabled: true
 server:
   port: 8083
-
