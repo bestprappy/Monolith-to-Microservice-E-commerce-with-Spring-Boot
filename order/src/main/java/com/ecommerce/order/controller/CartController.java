@@ -23,11 +23,7 @@ public class CartController {
             @RequestBody CartItemRequest request
             )
     {
-        if(!cartService.addToCart(userId, request)){
-            return ResponseEntity
-                    .badRequest()
-                    .body("Product out of Stock or User not found or Product not found!");
-        }
+        cartService.addToCart(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -37,11 +33,8 @@ public class CartController {
             @PathVariable String productId
     )
     {
-        boolean deleted = cartService.deleteItemFromCart(userId, productId);
-        return deleted ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.notFound().build();
-
+        cartService.deleteItemFromCart(userId, productId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

@@ -16,14 +16,9 @@ import org.springframework.http.HttpStatusCode;
 public class ProductServiceClientConfig {
 
     @Bean
-    public RestTemplate restTemplate(){
-        return new RestTemplate();
-    }
-
-    @Bean
     public ProductServiceClient productServiceClient(RestTemplate restTemplate, LoadBalancerClient loadBalancerClient){
         RestClient.Builder builder = RestClient.builder(restTemplate);
-        
+
         builder.requestInterceptor(new LoadBalancerInterceptor(loadBalancerClient));
         
         RestClient restClient = builder

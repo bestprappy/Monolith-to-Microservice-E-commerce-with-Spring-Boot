@@ -1,42 +1,5 @@
 spring:
   application:
     name: user-service
-  mongodb:
-    uri: mongodb+srv://xxthenerdlordxx_db_user:XatFcANs1fgPc1IE@user-data.gqw7u26.mongodb.net/?appName=user-data
-    database: userdb
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/userdb
-#    username: user
-#    password: password
-#  jpa:
-#    database: POSTGRESQL
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: update
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
-#  h2:
-#   console:
-#    enabled: true
-#  datasource:
-#   url: jdbc:h2:mem:test
-#  jpa:
-#   show-sql: true
-#   hibernate:
-#    ddl-auto: create
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-    register-with-eureka: true
-    fetch-registry: true
-management:
-  endpoint:
-    web:
-      exposure:
-        include: shutdown
-    shutdown:
-      enabled: true
-
-server:
-  port: 8082
-
+  config:
+    import: optional:configserver:http://localhost:8888

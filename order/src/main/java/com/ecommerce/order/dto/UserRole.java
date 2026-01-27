@@ -1,4 +1,4 @@
-package com.ecommerce.user.model;
+package com.ecommerce.order.dto;
 
 public enum UserRole {
     CUSTOMER,

@@ -1,0 +1,31 @@
+spring:
+  mongodb:
+    uri: ${MONGODB_URI}
+    database: userdb
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: "*"
+    shutdown:
+      enabled: true
+
+
+server:
+  port: 8082
+

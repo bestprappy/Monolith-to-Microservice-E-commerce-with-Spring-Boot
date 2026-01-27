@@ -1,8 +1,11 @@
 package com.ecommerce.order.service;
 
 
+import com.ecommerce.order.clients.UserServiceClient;
 import com.ecommerce.order.dto.OrderItemDTO;
 import com.ecommerce.order.dto.OrderResponse;
+import com.ecommerce.order.exception.EmptyCartException;
+import com.ecommerce.order.exception.UserNotFoundException;
 import com.ecommerce.order.model.CartItem;
 import com.ecommerce.order.model.Order;
 import com.ecommerce.order.model.OrderItem;
@@ -13,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
+
 
 
 @Service
@@ -21,26 +24,27 @@ import java.util.Optional;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final CartService cartService;
+    private final UserServiceClient userServiceClient;
 
-    public Optional<OrderResponse> createService(String userId) {
+    public OrderResponse createService(String userId) {
 
         //Validate for cart items
         List<CartItem> cartItems = cartService.getCart(userId);
         if(cartItems.isEmpty()){
-            return Optional.empty();
+            throw new EmptyCartException("Cart is empty for user ID: " + userId);
         }
 
         //Validate for user
-//        Optional<User> userOptional = userRepository.findById(Long.valueOf(userId));
-//        if(userOptional.isEmpty()) {
-//            return Optional.empty();
-//        }
-//        User user = userOptional.get();
+        try {
+            userServiceClient.getUserDetails(userId);
+        } catch (Exception e) {
+            throw new UserNotFoundException("User not found with ID: " + userId);
+        }
 
         //Calculate total price
         BigDecimal totalPrice = cartItems
                 .stream()
-                .map(CartItem::getPrice)
+                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         //Create order
@@ -61,7 +65,7 @@ public class OrderService {
 
         //Clear the cart
         cartService.clearCart(userId);
-        return Optional.of(mapToOrderResponse(savedOrder));
+        return mapToOrderResponse(savedOrder);
     }
 
     private OrderResponse mapToOrderResponse(Order order) {

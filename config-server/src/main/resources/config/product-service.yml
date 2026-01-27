@@ -1,10 +1,8 @@
 spring:
-  application:
-    name: product-service
   datasource:
     url: jdbc:postgresql://localhost:5432/product
-    username: user
-    password: password
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   jpa:
     database: POSTGRESQL
     show-sql: true
@@ -14,28 +12,30 @@ spring:
     properties:
       hibernate:
         format_sql: true
-#  h2:
-#    console:
-#      enabled: true
-#  datasource:
-#    url: jdbc:h2:mem:test
-#  jpa:
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: create
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
     register-with-eureka: true
     fetch-registry: true
+
+
 management:
   endpoint:
     web:
       exposure:
-        include: shutdown
+        include: "*"
     shutdown:
       enabled: true
+
+
 server:
   port: 8081
 
