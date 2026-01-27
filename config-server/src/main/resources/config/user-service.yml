@@ -8,7 +8,6 @@ spring:
     username: guest
     password: guest
 
-
 eureka:
   client:
     service-url:
@@ -16,16 +15,13 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
 
-
 management:
-  endpoint:
+  endpoints:
     web:
       exposure:
         include: "*"
     shutdown:
       enabled: true
 
-
 server:
   port: 8082
-

@@ -1,4 +1,4 @@
-package com.ecommerce.order.controller;
+package com.ecommerce.product.controller;
 
 
 import org.springframework.beans.factory.annotation.Value;

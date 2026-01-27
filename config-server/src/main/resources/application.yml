@@ -1,18 +1,24 @@
 spring:
- application:
-  name: config-server
- rabbitmq:
-   host: localhost
-   port: 5672
-   username: guest
-   password: guest
- profiles:
-  active: native
- cloud:
-   config:
-     server:
-       native:
-         search-locations: file:///C:\Users\User\Desktop\Full Stack\Microservice\ecom-microservices\config-server\src\main\resources\config
+  application:
+    name: config-server
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///C:\Users\User\Desktop\Full Stack\Microservice\ecom-microservices\config-server\src\main\resources\config
 
 server:
   port: 8888
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
