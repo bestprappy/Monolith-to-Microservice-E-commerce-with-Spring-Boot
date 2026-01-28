@@ -5,6 +5,7 @@ import com.ecommerce.user.dto.UserRequest;
 import com.ecommerce.user.dto.UserResponse;
 import com.ecommerce.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,13 +17,14 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
+@Slf4j
 public class UserController {
     private final UserService userService;
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers(){
-        return new ResponseEntity<>(userService.fetchAllUsers(), HttpStatus.OK);
+        return ResponseEntity.ok(userService.fetchAllUsers());
     }
 
     @PostMapping
@@ -34,18 +36,14 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable String id, @RequestBody UserRequest userRequest){
-        boolean updated = userService.updatedUser(id, userRequest);
-        if(updated) return new ResponseEntity<>("User updated!", HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        userService.updatedUser(id, userRequest);
+        return ResponseEntity.ok("User updated successfully");
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserById(
-            @PathVariable String id
-    ){
-        logger.info("Request received for user: {}", id);
-        return userService.findUserById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<UserResponse> getUserById(@PathVariable String id){
+        log.info("Request received for user: {}", id);
+        UserResponse response = userService.findUserById(id);
+        return ResponseEntity.ok(response);
     }
 }

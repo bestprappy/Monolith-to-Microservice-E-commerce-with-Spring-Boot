@@ -4,6 +4,7 @@ package com.ecommerce.user.service;
 import com.ecommerce.user.dto.AddressDto;
 import com.ecommerce.user.dto.UserRequest;
 import com.ecommerce.user.dto.UserResponse;
+import com.ecommerce.user.exception.UserNotFoundException;
 import com.ecommerce.user.model.Address;
 import com.ecommerce.user.model.User;
 import com.ecommerce.user.repository.UserRepository;
@@ -11,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,19 +31,17 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Boolean updatedUser(String id, UserRequest updatedUserRequest){
-
-        return userRepository.findById(String.valueOf(id))
-                .map(existingUser -> {
-                    updateUserFromRequest(existingUser, updatedUserRequest);
-                    userRepository.save(existingUser);                           userRepository.save(existingUser);
-                    return true;
-                }).orElse(false);
+    public void updatedUser(String id, UserRequest updatedUserRequest){
+        User existingUser = userRepository.findById(String.valueOf(id))
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        updateUserFromRequest(existingUser, updatedUserRequest);
+        userRepository.save(existingUser);
     }
 
-    public Optional<UserResponse> findUserById(String id){
+    public UserResponse findUserById(String id){
         return userRepository.findById(String.valueOf(id))
-                .map(this::mapToUserResponse);
+                .map(this::mapToUserResponse)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
     }
 
     private UserResponse mapToUserResponse(User user){

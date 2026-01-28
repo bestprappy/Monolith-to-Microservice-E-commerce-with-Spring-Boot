@@ -17,23 +17,20 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct (@RequestBody ProductRequest productRequest){
-        return new ResponseEntity<ProductResponse>(
-                productService.createProduct(productRequest),
-                HttpStatus.CREATED
-        );
+    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest){
+        ProductResponse response = productService.createProduct(productRequest);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getProducts (){
+    public ResponseEntity<List<ProductResponse>> getProducts(){
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> getProductById (@PathVariable String id ){
-        return productService.getProductById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable String id){
+        ProductResponse response = productService.getProductById(id);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
@@ -41,17 +38,14 @@ public class ProductController {
             @PathVariable Long id,
             @RequestBody ProductRequest productRequest
     ){
-        return productService.updateProduct(id, productRequest)
-                .map(ResponseEntity::ok)
-                .orElseGet(()-> ResponseEntity.notFound().build());
+        ProductResponse response = productService.updateProduct(id, productRequest);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable Long id){
-        boolean deleted = productService.deleteProduct(id);
-        return deleted ?
-                ResponseEntity.noContent().build() :
-                ResponseEntity.notFound().build() ;
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/search")

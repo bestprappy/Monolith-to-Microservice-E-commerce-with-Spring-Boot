@@ -3,13 +3,13 @@ package com.ecommerce.product.service;
 
 import com.ecommerce.product.dto.ProductRequest;
 import com.ecommerce.product.dto.ProductResponse;
+import com.ecommerce.product.exception.ProductNotFoundException;
 import com.ecommerce.product.model.Product;
 import com.ecommerce.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,18 +24,20 @@ public class ProductService {
         return mapToProductResponse(savedProduct);
     }
 
-    public Optional<ProductResponse> updateProduct(Long id , ProductRequest productRequest){
+    public ProductResponse updateProduct(Long id , ProductRequest productRequest){
        return productRepository.findById(id)
                 .map(existingProduct -> {
                     updateProductFromRequest(existingProduct, productRequest);
                     Product savedProduct = productRepository.save(existingProduct);
                     return mapToProductResponse(savedProduct);
-                });
+                })
+               .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
     }
 
-    public Optional<ProductResponse> getProductById(String id){
+    public ProductResponse getProductById(String id){
         return productRepository.findByIdAndActiveTrue(Long.valueOf(id))
-                .map(this::mapToProductResponse);
+                .map(this::mapToProductResponse)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
     }
 
     public List<ProductResponse> getAllProducts(){
@@ -44,14 +46,11 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public boolean deleteProduct(Long id){
-        return productRepository
-                .findById(id)
-                .map(product -> {
-                    product.setActive(false);
-                    productRepository.save(product);
-                    return true;
-                }).orElse(false);
+    public void deleteProduct(Long id){
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+        product.setActive(false);
+        productRepository.save(product);
     }
 
     public List<ProductResponse> searchProduct(String keyword) {
